@@ -22,7 +22,7 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
 
-    /*Shade cn*/
+    /*Shade_cn*/
     "baseUrl": ".",
     "paths": {
     "@/*": ["./src/*"]

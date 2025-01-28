@@ -10,16 +10,14 @@ import { SignupValidation } from "@/lib/validation"
 import { z } from "zod"
 import Loader from "@/components/shared/Loader"
 import { useToast } from "@/hooks/use-toast"
-import {useCreateUserAccount} from "@/lib/react-query/queriesAndMutaion"
-
-
+import { useCreateUserAccount, useSignInAccount } from "@/lib/react-query/queriesAndMutaion";
 
 
 const SignupForm =() => {
   const { toast } = useToast()
   const  { mutateAsync: createUserAccount, isLoading: isCreatingUser } = useCreateUserAccount();
 
-  const { mutateAsync: SigninAcoount, isLoading: isSigningIn} = useSignInAccount();
+  const { mutateAsync: SigninAcoount, isLoading: isSigningInUser } = useSignInAccount();
   // 1. Define your form.
   const form = useForm<z.infer<typeof SignupValidation>>({
     resolver: zodResolver(SignupValidation),

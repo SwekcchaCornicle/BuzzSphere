@@ -21,9 +21,9 @@ const App = () => {
          <Route index element={<Home />}/>
          </Route>
        </Routes>
-       </toaster>
+       <Toaster />
      </main>
-  )
-}
+  );
+};
 
 export default App

@@ -3,10 +3,13 @@ import { account, appwriteConfig, avatars, databases } from "./config";
 import { Avatars, ID, Query } from 'appwrite';
 import { URL } from "node:url";
 
-export async function createUserAccount(user: INewUser) {
+export async function createUserAccount(user: INewUser): Promise<any> {
   try {
+    const userId = ID.unique();
+    console.log("Generated userId:", userId);
+
     const newAccount = await account.create(
-      ID.unique(),
+      userId,
       user.email,
       user.password,
       user.name
@@ -30,6 +33,21 @@ export async function createUserAccount(user: INewUser) {
   }
 }
 
+
+export async function signInAccount(user: { email: string; password: string }): Promise<any> {
+  try {
+    console.log("Signing in with:", user.email, user.password);
+    const session = await account.createSession(user.email, user.password);
+    console.log("Session created:", session);
+    return session;
+  } catch (error) {
+    console.error("Error signing in account:", error);
+    throw error; // Ensure the error is rethrown
+  }
+}
+
+
+
 export async function saveUserToDB(user: {
   accountId: string;
   email: string;
@@ -50,18 +68,11 @@ export async function saveUserToDB(user: {
   }
 }
 
-export async function signInAccount(user: { email: string; password: string }) {
-  try {
-    const session = await account.createSession(user.email, user.password);
-    return session;
-  } catch (error) {
-    console.log(error);
-  }
-}
+
 
 export async function getCurrentUser() {
   try {
-    const currentAccount = await getAccount();
+    const currentAccount = await account.get();
 
     if (!currentAccount) throw Error;
 
